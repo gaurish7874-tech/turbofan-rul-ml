@@ -1,0 +1,14 @@
+{
+  "model_name": "Enhanced equal average",
+  "mean_MAE": 27.252647224919848,
+  "std_MAE": 1.1747537396878573,
+  "mean_RMSE": 39.007486761558454,
+  "std_RMSE": 1.0350256585295001,
+  "mean_R2": 0.6789468895832653,
+  "std_R2": 0.015857011576664918,
+  "n_splits": 5,
+  "n_features": 99,
+  "selection_criterion": "Lowest mean validation MAE across the five baseline folds, with mean RMSE as tiebreaker.",
+  "best_eligible_baseline": "Baseline equal average",
+  "best_reported_baseline": "Baseline weighted average"
+}

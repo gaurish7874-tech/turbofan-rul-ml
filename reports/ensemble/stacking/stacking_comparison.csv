@@ -1,0 +1,7 @@
+Architecture / Paradigm,Mean MAE,Std MAE,Mean RMSE,Std RMSE,Mean R²,Std R²,Paradigm
+Individual Base: Linear Regression,31.16,2.35,40.55,3.85,0.6524,0.0531,Single Parametric
+Individual Base: Random Forest,26.86,1.19,38.1,1.64,0.694,0.016,Single Non-Parametric (Bagging)
+Individual Base: XGBoost,26.62,1.19,37.69,1.61,0.7005,0.0155,Single Non-Parametric (Boosting)
+Ensemble: Simple Averaging (RF 0.5 + XGB 0.5),26.56,1.2,37.7,1.64,0.7004,0.0158,Fixed Linear Blending
+Ensemble: Optimal Weighted (RF 0.3 / XGB 0.7),26.54,1.07,37.65,1.46,0.7012,0.0141,Optimized Linear Blending
+Ensemble: Stacking Regression (Meta: Linear),27.03,1.62,37.79,2.2,0.6988,0.0242,Stacked Generalization

@@ -1,0 +1,15 @@
+{
+  "model_name":"Random Forest",
+  "n_estimators":200,
+  "max_depth":"None",
+  "min_samples_split":2,
+  "min_samples_leaf":1,
+  "random_state":42,
+  "mean_MAE":26.8555436514,
+  "std_MAE":1.1920599487,
+  "mean_RMSE":38.0980258646,
+  "std_RMSE":1.643047225,
+  "mean_R2":0.693998654,
+  "std_R2":0.0159900542,
+  "n_splits":5
+}

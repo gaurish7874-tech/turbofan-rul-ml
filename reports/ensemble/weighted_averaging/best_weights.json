@@ -1,0 +1,12 @@
+{
+  "best_w_rf":0.3,
+  "best_w_xgb":0.7,
+  "best_weight_label":"RF 0.3 \/ XGB 0.7",
+  "mean_MAE":26.5400865377,
+  "std_MAE":1.0748572023,
+  "mean_RMSE":37.6492150752,
+  "std_RMSE":1.4605800402,
+  "mean_R2":0.701166002,
+  "std_R2":0.0140700795,
+  "selection_criterion":"Lowest cross-validation MAE across 5-fold GroupKFold"
+}

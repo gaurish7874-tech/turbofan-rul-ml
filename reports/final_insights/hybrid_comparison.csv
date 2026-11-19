@@ -1,0 +1,4 @@
+model_id,Model,Group,MAE_CV,RMSE_CV,R2_CV,MAE_test,RMSE_test,R2_test,NASA Score,Source,CV note
+enhanced_random_forest,Enhanced Random Forest,Hybrid,27.40691742685076,39.47597713377937,0.6713439089935347,20.623600000000007,29.703630468345114,0.4890722130958815,159059.67370429213,hybrid/enhanced_models/random_forest/summary_metrics.json,
+enhanced_xgboost,Enhanced XGBoost,Hybrid,27.76100541198407,39.33586770842189,0.6732236141093988,20.12298548698425,27.60704116110122,0.5586529974986316,18770.645886549548,hybrid/enhanced_models/xgboost/summary_metrics.json,
+final_hybrid_model,Final Hybrid Model,Hybrid,27.252647224919848,39.00748676155845,0.6789468895832653,20.07185708065033,28.111115262636392,0.5423888397194385,48663.74505211796,hybrid/final_hybrid_model/summary_metrics.json,Enhanced blend selected and reported on the same folds.

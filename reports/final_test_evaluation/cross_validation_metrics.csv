@@ -1,0 +1,10 @@
+model_id,Model,Group,MAE,RMSE,R2,Source,CV note
+linear_regression,Linear Regression,Individual,31.16309336,40.5470790255,0.6523912458,individual_models/linear_regression/summary_metrics.json,
+random_forest,Random Forest,Individual,26.8555436514,38.0980258646,0.693998654,individual_models/random_forest/summary_metrics.json,
+xgboost,XGBoost,Individual,26.6153629303,37.6935699463,0.7004588366,individual_models/xgboost/summary_metrics.json,
+simple_averaging,Simple Averaging,Ensemble,26.5577365688,37.6988894958,0.7003778193,ensemble/simple_averaging/summary_metrics.json,
+weighted_averaging,Weighted Averaging,Ensemble,26.5400865377,37.6492150752,0.701166002,ensemble/weighted_averaging/best_weights.json,Historical weights chosen on the same folds used for reporting.
+stacking,Stacking,Ensemble,27.0297149921,37.7900468775,0.6988471182,ensemble/stacking/summary_metrics.json,Historical meta-CV used global OOF base predictions. Some meta-training rows depended on outer validation engines.
+enhanced_random_forest,Enhanced Random Forest,Hybrid,27.40691742685076,39.47597713377937,0.6713439089935347,hybrid/enhanced_models/random_forest/summary_metrics.json,
+enhanced_xgboost,Enhanced XGBoost,Hybrid,27.76100541198407,39.335867708421894,0.6732236141093988,hybrid/enhanced_models/xgboost/summary_metrics.json,
+final_hybrid_model,Final Hybrid Model,Hybrid,27.252647224919848,39.007486761558454,0.6789468895832653,hybrid/final_hybrid_model/summary_metrics.json,Enhanced blend selected and reported on the same folds.

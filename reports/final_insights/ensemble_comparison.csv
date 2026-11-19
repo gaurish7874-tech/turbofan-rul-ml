@@ -1,0 +1,4 @@
+model_id,Model,Group,MAE_CV,RMSE_CV,R2_CV,MAE_test,RMSE_test,R2_test,NASA Score,Source,CV note
+simple_averaging,Simple Averaging,Ensemble,26.5577365688,37.6988894958,0.7003778193,19.10477881536484,25.951560110330306,0.6099974936381489,7895.521611830849,ensemble/simple_averaging/summary_metrics.json,
+weighted_averaging,Weighted Averaging,Ensemble,26.5400865377,37.6492150752,0.701166002,18.790309843215944,25.789400158379863,0.6148561764425966,7198.319799663403,ensemble/weighted_averaging/best_weights.json,Historical weights chosen on the same folds used for reporting.
+stacking,Stacking,Ensemble,27.0297149921,37.7900468775,0.6988471182,19.28136641911701,25.95190292112021,0.6099871899839756,6096.536937576046,ensemble/stacking/summary_metrics.json,Historical meta-CV used global OOF base predictions. Some meta-training rows depended on outer validation engines.

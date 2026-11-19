@@ -1,0 +1,12 @@
+{
+  "training_rows": 20631,
+  "training_engines": 100,
+  "test_observed_rows": 13096,
+  "test_engines": 100,
+  "scoring_rows_per_engine": 1,
+  "label_key": "One-based NASA RUL file row equals unit_number.",
+  "endpoint_key": "Maximum available time_cycles for each test engine.",
+  "predictions": "Raw model outputs. Metrics use the 100 engine endpoints.",
+  "nasa_score": "Sum expm1(abs(predicted - actual)/scale). Scale 13 for underestimates and 10 otherwise.",
+  "nasa_score_source": "https://ntrs.nasa.gov/api/citations/20205001125/downloads/Run_to_Failure_Simulation_Under_Real_Flight_Conditions_Dataset.pdf"
+}

@@ -1,0 +1,4 @@
+Model,Mean MAE,Standard Deviation MAE,Mean RMSE,Standard Deviation RMSE,Mean R²,Standard Deviation R²,Rank_MAE,Rank_RMSE
+XGBoost,26.62,1.19,37.69,1.61,0.7005,0.0155,1,1
+Random Forest,26.86,1.19,38.1,1.64,0.694,0.016,2,2
+Linear Regression,31.16,2.35,40.55,3.85,0.6524,0.0531,3,3

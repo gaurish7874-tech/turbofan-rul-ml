@@ -1,0 +1,22 @@
+{
+  "model_name": "Enhanced XGBoost",
+  "mean_MAE": 27.76100541198407,
+  "std_MAE": 1.5756201865390869,
+  "mean_RMSE": 39.335867708421894,
+  "std_RMSE": 1.1130909047049482,
+  "mean_R2": 0.6732236141093988,
+  "std_R2": 0.022964837185482007,
+  "n_splits": 5,
+  "n_features": 99,
+  "parameters": {
+    "objective": "reg:squarederror",
+    "colsample_bytree": 0.8,
+    "enable_categorical": true,
+    "learning_rate": 0.05,
+    "max_depth": 4,
+    "n_estimators": 300,
+    "n_jobs": -1,
+    "random_state": 42,
+    "subsample": 0.8
+  }
+}

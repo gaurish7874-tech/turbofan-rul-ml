@@ -1,0 +1,5 @@
+Pipeline / Model,Mean MAE,Std MAE,Mean RMSE,Std RMSE,Mean R²,Std R²
+Random Forest Regressor,26.86,1.19,38.1,1.64,0.694,0.016
+XGBoost Regressor,26.62,1.19,37.69,1.61,0.7005,0.0155
+Simple Averaging (50/50),26.56,1.2,37.7,1.64,0.7004,0.0158
+Optimal Weighted (RF 0.3 / XGB 0.7),26.54,1.07,37.65,1.46,0.7012,0.0141

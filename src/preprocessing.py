@@ -9,9 +9,12 @@ This module implements defensible, leak-free preprocessing operations:
 4. Clean separation of features, target, and grouping identifiers (unit_number).
 """
 
-from typing import Tuple, List, Dict, Optional
+from typing import Tuple, List, Dict, Optional, Union
+from pathlib import Path
 import pandas as pd
 import numpy as np
+import joblib
+from sklearn.preprocessing import StandardScaler
 
 
 # Human-interpretable justifications for removing non-informative channels in FD001
@@ -297,6 +300,127 @@ def get_feature_removal_reasons() -> Dict[str, str]:
     return FEATURE_REMOVAL_JUSTIFICATIONS.copy()
 
 
+# Standard canonical ordering of the 15 selected predictive features
+CANONICAL_15_FEATURES: List[str] = [
+    "time_cycles",
+    "sensor_2",
+    "sensor_3",
+    "sensor_4",
+    "sensor_7",
+    "sensor_8",
+    "sensor_9",
+    "sensor_11",
+    "sensor_12",
+    "sensor_13",
+    "sensor_14",
+    "sensor_15",
+    "sensor_17",
+    "sensor_20",
+    "sensor_21",
+]
+
+
+def prepare_model_features(
+    X_train: pd.DataFrame,
+    X_val: pd.DataFrame,
+    model_type: str,
+    fold: Optional[int] = None,
+    scaler_dir: Optional[Union[str, Path]] = "models/scalers",
+) -> Tuple[pd.DataFrame, pd.DataFrame, Optional[StandardScaler]]:
+    """
+    Executes model-specific feature preprocessing adhering strictly to zero data leakage.
+
+    Preprocessing Rules:
+    1. Linear Regression ('linear', 'linear_regression', 'ridge', 'lasso'):
+       - Fits StandardScaler strictly on training fold (X_train).
+       - Transforms validation fold (X_val) using the fitted scaler.
+       - Never fits or calculates statistics on X_val.
+       - Optionally serializes the fitted scaler artifact via joblib.
+    2. Random Forest ('random_forest', 'rf'):
+       - Uses original unscaled numerical features (tree algorithms are invariant
+         to monotonic scale transformations).
+    3. XGBoost ('xgboost', 'xgb'):
+       - Uses original unscaled numerical features.
+
+    Parameters
+    ----------
+    X_train : pd.DataFrame
+        Training fold feature matrix.
+    X_val : pd.DataFrame
+        Validation fold feature matrix.
+    model_type : str
+        Algorithm family: 'linear', 'random_forest', or 'xgboost'.
+    fold : Optional[int], default=None
+        Fold index (1..K) used for naming serialized scaler checkpoints.
+    scaler_dir : Optional[Union[str, Path]], default='models/scalers'
+        Directory path to persist fitted StandardScaler artifacts via joblib.
+        If None, serialization is skipped.
+
+    Returns
+    -------
+    Tuple[pd.DataFrame, pd.DataFrame, Optional[StandardScaler]]
+        - X_train_prep: Preprocessed training features DataFrame (original index & columns preserved).
+        - X_val_prep: Preprocessed validation features DataFrame (original index & columns preserved).
+        - fitted_scaler: The fitted StandardScaler instance for linear models, or None for tree models.
+
+    Raises
+    ------
+    ValueError
+        If unrecognized model_type is supplied, or column mismatch occurs.
+    """
+    # Defensive checks on column consistency
+    if list(X_train.columns) != list(X_val.columns):
+        raise ValueError(
+            f"Feature column mismatch between training and validation folds!\n"
+            f"X_train columns: {list(X_train.columns)}\n"
+            f"X_val columns:   {list(X_val.columns)}"
+        )
+
+    norm_type = model_type.strip().lower()
+
+    # 1. Linear Regression: Requires Standardization
+    if norm_type in {"linear", "linear_regression", "linearregression", "ridge", "lasso"}:
+        scaler = StandardScaler()
+        # FIT STRICTLY ON TRAINING DATA ONLY (Zero Leakage)
+        scaler.fit(X_train)
+
+        # Transform both splits using parameters learned strictly from train
+        X_train_scaled = pd.DataFrame(
+            scaler.transform(X_train),
+            columns=X_train.columns,
+            index=X_train.index,
+        )
+        X_val_scaled = pd.DataFrame(
+            scaler.transform(X_val),
+            columns=X_val.columns,
+            index=X_val.index,
+        )
+
+        # Store preprocessing artifacts using joblib if directory is configured
+        if scaler_dir is not None:
+            save_path = Path(scaler_dir)
+            save_path.mkdir(parents=True, exist_ok=True)
+            fold_suffix = f"_fold_{fold}" if fold is not None else ""
+            artifact_file = save_path / f"scaler_{norm_type}{fold_suffix}.joblib"
+            joblib.dump(scaler, artifact_file)
+
+        return X_train_scaled, X_val_scaled, scaler
+
+    # 2. Random Forest: Unscaled Numerical Features
+    elif norm_type in {"rf", "random_forest", "randomforest", "randomforestregressor"}:
+        return X_train.copy(), X_val.copy(), None
+
+    # 3. XGBoost: Unscaled Numerical Features
+    elif norm_type in {"xgb", "xgboost", "xgbregressor"}:
+        return X_train.copy(), X_val.copy(), None
+
+    else:
+        raise ValueError(
+            f"Unsupported model_type '{model_type}'. Expected one of: "
+            f"'linear', 'random_forest', 'xgboost'."
+        )
+
+
 if __name__ == "__main__":
     import sys
     from pathlib import Path
@@ -322,4 +446,15 @@ if __name__ == "__main__":
     print(f"Feature matrix X shape:   {X.shape}")
     print(f"Target vector y shape:    {y.shape}")
     print(f"Grouping vector units:    {units.nunique()} engines")
+
+    # Test model-specific preprocessing
+    dummy_train = X.iloc[:1000]
+    dummy_val = X.iloc[1000:1200]
+    X_tr_s, X_v_s, scaler = prepare_model_features(dummy_train, dummy_val, model_type="linear", fold=1)
+    print(f"Linear prep scaled mean:  {X_tr_s.mean().abs().max():.6f} (expected ~0.0)")
+    print(f"Linear prep scaled std:   {X_tr_s.std().mean():.6f} (expected ~1.0)")
+    X_tr_rf, X_v_rf, _ = prepare_model_features(dummy_train, dummy_val, model_type="random_forest")
+    print(f"RF prep unscaled match:   {np.allclose(X_tr_rf.values, dummy_train.values)}")
+    X_tr_xgb, X_v_xgb, _ = prepare_model_features(dummy_train, dummy_val, model_type="xgboost")
+    print(f"XGB prep unscaled match:  {np.allclose(X_tr_xgb.values, dummy_train.values)}")
     print("All preprocessing sanity checks passed successfully!")

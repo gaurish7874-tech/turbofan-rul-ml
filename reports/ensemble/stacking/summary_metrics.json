@@ -1,0 +1,16 @@
+{
+  "model_name":"Stacking Ensemble (Meta: Linear Regression)",
+  "base_models":[
+    "Linear Regression",
+    "Random Forest",
+    "XGBoost"
+  ],
+  "meta_model":"Linear Regression",
+  "mean_MAE":27.0297149921,
+  "std_MAE":1.6248950534,
+  "mean_RMSE":37.7900468775,
+  "std_RMSE":2.2023826416,
+  "mean_R2":0.6988471182,
+  "std_R2":0.0242440943,
+  "n_splits":5
+}

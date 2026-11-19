@@ -1,0 +1,14 @@
+{
+  "model_name":"Simple Averaging Ensemble (RF + XGB)",
+  "weights":{
+    "Random Forest":0.5,
+    "XGBoost":0.5
+  },
+  "mean_MAE":26.5577365688,
+  "std_MAE":1.1975845295,
+  "mean_RMSE":37.6988894958,
+  "std_RMSE":1.6418524684,
+  "mean_R2":0.7003778193,
+  "std_R2":0.0158409763,
+  "n_splits":5
+}

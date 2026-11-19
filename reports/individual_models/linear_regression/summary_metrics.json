@@ -1,0 +1,10 @@
+{
+  "model_name":"Linear Regression",
+  "mean_MAE":31.16309336,
+  "std_MAE":2.3503805002,
+  "mean_RMSE":40.5470790255,
+  "std_RMSE":3.8469247864,
+  "mean_R2":0.6523912458,
+  "std_R2":0.0531190228,
+  "n_splits":5
+}
